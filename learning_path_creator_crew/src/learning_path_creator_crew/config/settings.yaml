@@ -1,0 +1,63 @@
+verbose: true
+tempreature: 0.7
+
+user_prompts:
+  welcome: 
+    message: |
+      ####### Welcome to the Learning Path Creator Crew! #######
+      This crew is designed to help you create a personalized learning path.
+      It will guide you through the process of defining your learning requirements,
+      discovering potential resources, evaluating and filtering them,
+      designing the learning path structure, and compiling the final learning plan report.
+    user_input: false
+
+  learning_topic:
+    message: |
+      What topic do you want to learn about?
+      Examples:
+      - Learn Python Programming
+      - Introduction to Quantum Computing
+      Topic
+        
+  user_level:
+    message: |
+      What is your level in this topic?
+      Examples: beginner, intermediate, advanced.
+      Press [Enter] to use the default value (beginner)
+    default: beginner
+
+  time_available:
+    message: |
+      How many hours per week you internd to dedicate to learn this topic?
+      Examples: 3, 5-7 ...etc.
+      Press [Enter] to use the default value (3-5)
+    default: 3-5
+
+  max_cost:
+    message: |
+      What is the max cost in $ you internd to spend learning this topic?
+      Examples: 50, 100, 300 ...etc.
+      Press [Enter] to use the default value (50)
+    default: 50
+
+  learning_goals:
+    message: |
+      What is your goal you intend to achieve by following the learnin plan?
+      Examples: 
+      - Gain foundational understanding and practical skills
+      - Understand the basics of the topic
+      - Obtain an overview of the topic
+      Press [Enter] to use the default value (Obtain an overview of the topic)
+      Goal
+    default: obtain an overview of the topic
+
+  user_language:
+    message: |
+      In what language you want the learning resouces to be?
+      Examples:
+      - Arabic
+      - English
+      - Turkish
+      Press [Enter] to use the default value (English)
+      Language
+    default: English

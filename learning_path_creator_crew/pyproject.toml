@@ -1,0 +1,22 @@
+[project]
+name = "learning_path_creator_crew"
+version = "0.1.0"
+description = "Personalized Learning Path Curator Crew (using crewAI)"
+authors = [{ name = "Loai Farajallah", email = "loai.farajallah@gmail.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.108.0,<1.0.0",
+    "duckduckgo-search",
+    "langchain-community",
+]
+
+[project.scripts]
+learning_path_creator_crew = "learning_path_creator_crew.main:run"
+run_crew = "learning_path_creator_crew.main:run"
+train = "learning_path_creator_crew.main:train"
+replay = "learning_path_creator_crew.main:replay"
+test = "learning_path_creator_crew.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

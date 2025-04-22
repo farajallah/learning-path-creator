@@ -1,0 +1,119 @@
+define_learning_requirements:
+  description: >
+    Analyze the initial user input, particularly the learning **topic: {learning_topic}**.
+    Infer or define standard assumptions for other parameters if not provided:
+    Assume a '{user_level}' skill level unless implied otherwise by the topic.
+    Assume a preference for a mix of 'Video tutorials and Reading materials'.
+    Assume a time commitment of '{time_available} hours/week'.
+    Assume a budget of 'Mostly free, open to low-cost options (under ${max_cost})'.
+    Assume the goal is to {learning_goals}.
+    Assume that the user understands {user_language} language, so let the learning resources be in 
+    {user_language} language (as possible).
+    Output a structured summary of these requirements, incorporating the specific {learning_topic}.
+  expected_output: >
+    A structured text summary detailing the user's specific topic and the assumed/defined
+    goals, level, learning style preferences, time commitment, budget constraints ...etc. Example:
+    "User Requirements:
+    - Topic: {learning_topic}
+    - Goal: {learning_goals}.
+    - Level: {user_level}
+    - Style: Prefers Videos and Reading
+    - Time: {time_available} hours/week
+    - Language: {user_language} language
+    - Budget: Mostly free, <= ${max_cost} options acceptable"
+  agent: goal_clarification_agent
+
+discover_potential_resources:
+  description: >
+    Based on the structured learning requirements (especially the topic and level),
+    use the DuckDuckGoSearch tool to find a diverse array of potential online learning resources preferrably in {user_language} language.
+    Focus queries on '{learning_topic}'. Search across varied platforms like course providers (Udemy, Coursera ...etc.),
+    video platforms (YouTube), documentation sites, and reputable blogs. Aim for 5-10 promising initial leads.
+  expected_output: >
+    A list of potential learning resources including their titles, URLs, and brief snippets/descriptions
+    obtained from the search results.
+    Example: "[{'title': 'Intro to {learning_topic} - Official Docs', 'url': '...', 'snippet': '...'},
+    {'title': 'Free {learning_topic} Crash Course - YouTube', 'url': '...', 'snippet': '...'},
+    {'title': '{learning_topic} for Beginners - Udemy', 'url': '...', 'snippet': '...'}, ...]"
+  agent: goal_clarification_agent
+  # context:
+  #   - define_learning_requirements
+
+evaluate_and_filter_resources:
+  description: >
+    Review the list of potential resources provided. Evaluate each resource based *only* on the
+    provided title, URL, and snippet against the user's requirements (topic relevance, implied level,
+    potential cost based on source like Udemy vs. docs). Use common sense and source reputation
+    (e.g., official docs are usually reliable, YouTube can vary). Filter down to the 3-5 most promising
+    and relevant resources appearing suitable for the defined requirements. If needed, perform a quick
+    follow-up search for reviews or details of a specific promising resource.
+  expected_output: >
+    A curated list of 3-5 high-potential, relevant resources suitable for the user, potentially with brief
+    justifications based on the search data. Example:
+    "Vetted Resources:
+    - {'title': 'Intro to {learning_topic} - Official Docs', 'url': '...', 'justification': 'Appears authoritative, likely free, fundamental.'}
+    - {'title': 'Free {learning_topic} Crash Course - YouTube', 'url': '...', 'justification': 'Video format matches preference, free.'}
+    - {'title': '{learning_topic} Complete Guide - ReputableBlog.com', 'url': '...', 'justification': 'Reading material, seems comprehensive.'} ..."
+  agent: quality_relevance_assessor_agent
+  # context:
+  #   - discover_potential_resources
+  #   - define_learning_requirements
+
+design_the_learning_path_structure:
+  description: >
+    Take the curated list of vetted resources and organize them into a logical, sequential
+    learning path using **Markdown formatting**. Structure the path into 2-4 distinct modules or steps
+    (e.g., ## Module 1: Fundamentals, ## Module 2: Core Concepts, etc.). Assign appropriate
+    resources to each module using Markdown lists and links `[Title](URL)`. Ensure a smooth progression
+    towards gaining proficiency in '{learning_topic}'.
+  expected_output: >
+    A structured learning path using **Markdown**. It should outline the sequence of modules/steps
+    and the corresponding vetted resource(s) for each stage, properly formatted. Example:
+    "## Learning Path for {learning_topic}
+
+    ### Module 1: Getting Started
+    *   Resource: [Intro to {learning_topic} - Official Docs](URL)
+    *   Focus: Understand the basic principles and setup.
+
+    ### Module 2: Core Concepts & Examples
+    *   Resource: [Free {learning_topic} Crash Course - YouTube](URL)
+    *   Resource: [{learning_topic} Complete Guide - ReputableBlog.com](URL)
+    *   Focus: Dive deeper into key areas through video and text.
+    ..."
+  agent: curriculum_design_agent
+  # context:
+  #   - evaluate_and_filter_resources
+
+compile_the_final_learning_plan_report:
+  description: >
+    Compile the **Markdown** formatted learning path structure into a final, polished report for the user.
+    Ensure the entire output is valid **Markdown**. Start with a main heading (`# Your Personalized Learning Path for {learning_topic}`).
+    Include the structured modules with clear headings (`##`), bullet points (`*` or `-`) for resources,
+    and correctly formatted links `[Resource Title](URL)`. Add a brief concluding sentence with encouragement.
+    The final output **MUST** be only the Markdown report content.
+    Let the report be engaging and easy to read.
+    Since the user understands {user_language}, let the report be written in that language.
+  expected_output: >
+    A comprehensive, well-formatted **Markdown** report detailing the personalized learning path.
+    It should include a main title, module headings, bulleted resource lists with links, and a brief conclusion.
+    Example:
+    # Your Personalized Learning Path for {learning_topic}
+
+    Here is a suggested path to get started with {learning_topic}, based on beginner-level assumptions and a mix of free/low-cost resources:
+
+    ## Module 1: Foundational Concepts
+    *   Focus: Grasp the absolute basics and terminology.
+    *   Resource: [Intro to {learning_topic} - Official Docs](URL_PROVIDED) - Start here for the official ground truth.
+
+    ## Module 2: Guided Introduction
+    *   Focus: See concepts in action and follow along.
+    *   Resource: [Free {learning_topic} Crash Course - YouTube](URL_PROVIDED) - Provides a visual walkthrough.
+
+    ## Module 3: Deeper Dive & Practice
+    *   Focus: Read more detailed explanations and begin applying knowledge.
+    *   Resource: [{learning_topic} Complete Guide - ReputableBlog.com](URL_PROVIDED) - Offers comprehensive text-based learning.
+
+    Good luck with your learning journey!
+  agent: learning_path_presenter_agent
+  # context:
+  #   - design_the_learning_path_structure
