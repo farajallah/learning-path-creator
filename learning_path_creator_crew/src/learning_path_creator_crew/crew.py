@@ -23,7 +23,7 @@ class LearningPathCreator():
             config=self.agents_config['goal_clarification_agent'],
             tools=[self.duckduckgo_search_tool],
             verbose=self.crew_config['verbose'],
-            tempreature=self.crew_config['tempreature'],
+            temperature=self.crew_config['temperature'],
         )
 
     @agent
@@ -32,7 +32,7 @@ class LearningPathCreator():
             config=self.agents_config['quality_relevance_assessor_agent'],
             tools=[self.duckduckgo_search_tool],
             verbose=self.crew_config['verbose'],
-            tempreature=self.crew_config['tempreature'],
+            temperature=self.crew_config['temperature'],
         )
 
     @agent
@@ -40,7 +40,7 @@ class LearningPathCreator():
         return Agent(
             config=self.agents_config['curriculum_design_agent'],
             verbose=self.crew_config['verbose'],
-            tempreature=self.crew_config['tempreature'],
+            temperature=self.crew_config['temperature'],
         )
 
     @agent
@@ -48,7 +48,7 @@ class LearningPathCreator():
         return Agent(
             config=self.agents_config['learning_path_presenter_agent'],
             verbose=self.crew_config['verbose'],
-            tempreature=self.crew_config['tempreature'],
+            temperature=self.crew_config['temperature'],
         )
 
     # ################################################################################ #

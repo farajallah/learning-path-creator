@@ -82,7 +82,7 @@ In this file you will find the follwoing crew settings:
     1. verbose (true / false):  
     If true, the crew will provide detailed and extensive output or information while it is running. This is useful for debugging.
 
-    2. tempreature (0.0 - 1.0):  
+    2. temperature (0.0 - 1.0):  
     This setting controls the creativity of the model's outputs. A value close to 0.0 means a more focused and deterministic model, while a value close to 1.0 means a more creative one.
 
     3. prompts:  
